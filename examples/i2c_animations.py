@@ -1,3 +1,4 @@
+import time
 from machine import Pin
 from i2cp import i2cSlave
 from pixelstrip import PixelStrip, current_time
@@ -15,8 +16,10 @@ animation = [
 
 # List of PixelStrips
 strip = [
-    PixelStrip(4, 8, brightness=BRIGHTNESS),
-    PixelStrip(5, 8, brightness=BRIGHTNESS)
+    PixelStrip(4, 12, brightness=BRIGHTNESS),
+    PixelStrip(5, 8, brightness=BRIGHTNESS),
+    PixelStrip(6, 12, brightness=BRIGHTNESS),
+    PixelStrip(8, 12, brightness=BRIGHTNESS)
 ]
 
 # The built-in LED will turn on for half a second after every message
@@ -37,8 +40,10 @@ def receive_message():
 
 def main():
     global strip, led
+    blink(3)
     for s in strip:
         s.clear()
+        s.show()
     last_msg_time = 0.0
     while True:
         for s in strip:
@@ -51,4 +56,20 @@ def main():
             last_msg_time = current_time()
         led.value(current_time() < last_msg_time + 0.5)
 
+def blink(i):
+    for _ in range(i):
+        led.toggle()
+        for s in strip:
+            s[0] = (128, 0, 0, 0)
+            s.show()
+        time.sleep(0.2)
+        led.toggle()
+        for s in strip:
+            s.clear()
+            s.show()
+        time.sleep(0.2)
+
 main()
+
+
+

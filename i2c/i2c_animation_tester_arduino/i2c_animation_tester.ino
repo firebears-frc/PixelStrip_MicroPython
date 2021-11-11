@@ -8,7 +8,7 @@
 
 const int I2C_ADDRESS = 0x41;
 const int MAX_ANIMATIONS = 3;
-const int MAX_STRIPS = 2;
+const int MAX_STRIPS = 4;
 
 void setup()
 {
