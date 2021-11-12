@@ -52,7 +52,11 @@ def main():
         if message:
             strip_num = message[0]
             anim_num = message[1]
-            strip[strip_num].animation = animation[anim_num]
+            if anim_num < 0x0F:
+                strip[strip_num].animation = animation[anim_num]
+            else:
+                strip[strip_num].animation = None
+                strip[strip_num].clear()
             last_msg_time = current_time()
         led.value(current_time() < last_msg_time + 0.5)
 
@@ -70,6 +74,7 @@ def blink(i):
         time.sleep(0.2)
 
 main()
+
 
 
 

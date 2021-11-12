@@ -17,7 +17,6 @@ public class Robot extends TimedRobot {
   private int myStrip = 0;
   private int myAnim = 0;
   private byte[] dataOut = new byte[1];
-  private byte[] dataBack = new byte[0];
 
   private XboxController xbox = null;
   private I2C i2c = null;
@@ -50,9 +49,8 @@ public class Robot extends TimedRobot {
 
   private void resetAnimations() {
     for (int s = 0; s < MAX_STRIPS; s++) {
-      nextAnimation[s] = 0;
+      nextAnimation[s] = (byte)0x0f;
       currentAnimation[s] = 0;
-      sendOneAnimation(s);
     }
     myStrip = 0;
     myAnim = 0;
@@ -74,9 +72,6 @@ public class Robot extends TimedRobot {
 
   private void sendOneAnimation(int stripNumber) {
     dataOut[0] = nextAnimation[stripNumber];
-    i2c.transaction(dataOut, dataOut.length, dataBack, dataBack.length);
-    int strip_number = (dataOut[0] & 0xF0) >> 4;
-    int anim_number = (dataOut[0] & 0x0F);
-    System.out.println("sendOneAnimation: strip_number=" + strip_number + "  anim_number=" + anim_number);
+    i2c.writeBulk(dataOut, dataOut.length);
   }
 }
