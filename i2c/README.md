@@ -7,7 +7,7 @@ This project demonstrates that NeoPixel strips connected to a Raspberry Pi Pico 
 
 When the Arduino sends out its message, it also causes its onboard LED to light for half a  second.  When the Pico receives a message, it causes the Pico's onboard LED to light for half  a second.  If everything is wired correctly, you should see both LEDs blinking at the same time.
 
-## Arduino Software installation
+## Arduino Software Installation
 
 The Arduino program `i2c_animation_tester.ino` should be loaded with the [Arduino IDE](https://www.arduino.cc/).
 
@@ -26,12 +26,24 @@ You can also use Visual Studio Code with the [Pico-Go](http://pico-go.net/) exte
 
 ![Files using Pico-Go](files_pico_go.png)
 
-## Arduino Hardware setup
+## Arduino Hardware Setup
 
-Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP16 and GP17 pins for I2C.  Also connect ground wires between the two boards.
+Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP16 and GP17 pins for I2C.  Also connect ground wires between the two boards.  Ignore the power pin.
 
 When possible, stick to the [Qwiic convention](https://learn.adafruit.com/introducing-adafruit-stemma-qt/technical-specs) of using yellow wire for clock and blue for data.
 
 Wire the two NeoPixel strips to ground, power, and two data pins.  In this example, we are using the Pico's GP4 and GP5 pins for pixel data.
 
 ![Breadboard setup](i2c_tester.png)
+
+## RoboRIO Software Installation
+
+The `Robot.java` file is a [RoboRIO](https://www.ni.com/en-us/support/model.roborio.html) program.  
+
+This program assumes that you use an XBox controller, but you can easily modify it for any other joystick or game controller. This is a demonstration program that lets you change animations on the Pico.  You can use it as a base for creating a more sophisticated robot program that utilizes PixelStrips.
+
+Starting with Visual Studio Code where you have installed the [WPILib package](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/index.html).  Execute the "Create a new project" task and then select: Template > Java > Timed Skeleton.  From the resulting project, open up the `Robot.java` file and then copy in the value from this repository.
+
+## RoboRIO Hardware Setup
+
+Connect the Pico's ground, clock, and data pins to the I2C pins on the top of the RoboRIO. Don't worry about the power pin.
