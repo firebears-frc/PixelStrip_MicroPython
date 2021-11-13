@@ -23,7 +23,7 @@ void loop()
 {
   strip_number = (strip_number + 1) % MAX_STRIPS;
   if (strip_number == 0) {
-    anim_number = (anim_number + 1) % MAX_ANIMATIONS;
+    anim_number = (anim_number + 1) % (MAX_ANIMATIONS + 1);
   }
 
   byte b = ((strip_number << 4) & 0xF0) + (anim_number & 0xF);

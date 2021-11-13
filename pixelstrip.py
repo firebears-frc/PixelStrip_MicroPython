@@ -51,6 +51,8 @@ class PixelStrip(neopixel.NeoPixel):
         self._prev_time = current_time()
         if self._animation is not None:
             self._animation.reset(self)
+        else:
+            self.clear()
 
     def clear(self):
         """
@@ -68,6 +70,8 @@ class PixelStrip(neopixel.NeoPixel):
         self._animation = anim
         if self._animation is not None:
             self._animation.reset(self)
+        else:
+            self.clear()
 
     @property
     def timeout(self):

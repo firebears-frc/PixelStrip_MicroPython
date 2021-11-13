@@ -7,7 +7,7 @@ This project demonstrates that NeoPixel strips connected to a Raspberry Pi Pico 
 
 When the Arduino sends out its message, it also causes its onboard LED to light for half a  second.  When the Pico receives a message, it causes the Pico's onboard LED to light for half  a second.  If everything is wired correctly, you should see both LEDs blinking at the same time.
 
-## Software installation
+## Arduino Software installation
 
 The Arduino program `i2c_animation_tester.ino` should be loaded with the [Arduino IDE](https://www.arduino.cc/).
 
@@ -26,9 +26,11 @@ You can also use Visual Studio Code with the [Pico-Go](http://pico-go.net/) exte
 
 ![Files using Pico-Go](files_pico_go.png)
 
-## Hardware setup
+## Arduino Hardware setup
 
-Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP16 and GP17 pins for I2C. Also connect ground wires between the two boards.
+Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP16 and GP17 pins for I2C.  Also connect ground wires between the two boards.
+
+When possible, stick to the [Qwiic convention](https://learn.adafruit.com/introducing-adafruit-stemma-qt/technical-specs) of using yellow wire for clock and blue for data.
 
 Wire the two NeoPixel strips to ground, power, and two data pins.  In this example, we are using the Pico's GP4 and GP5 pins for pixel data.
 

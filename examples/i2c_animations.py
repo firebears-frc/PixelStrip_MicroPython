@@ -29,6 +29,9 @@ led.value(False)
 i2c_slave = i2cSlave(0,sda=16,scl=17,slave_address=I2C_ADDRESS)
 
 def receive_message():
+    """
+    Recieve one byte on I2C bus.  Translate to strip and animation number.
+    """
     global i2c_slave
     if i2c_slave.any():
         b = i2c_slave.get()
@@ -38,29 +41,21 @@ def receive_message():
     else:
         return None
 
-def main():
-    global strip, led
-    blink(3)
-    for s in strip:
-        s.clear()
-        s.show()
-    last_msg_time = 0.0
-    while True:
-        for s in strip:
-            s.draw()
-        message = receive_message()
-        if message:
-            strip_num = message[0]
-            anim_num = message[1]
-            if anim_num < 0x0F:
-                strip[strip_num].animation = animation[anim_num]
-            else:
-                strip[strip_num].animation = None
-                strip[strip_num].clear()
-            last_msg_time = current_time()
-        led.value(current_time() < last_msg_time + 0.5)
+def set_animation(strip_num, anim_num):
+    """
+    Set the animation on one PixelStrip to be one Animation.
+    If anim_num is too large, stop animation and clear strip.
+    """
+    if anim_num < len(animation):
+        strip[strip_num].animation = animation[anim_num]
+    else:
+        strip[strip_num].animation = None
 
 def blink(i):
+    """
+    Blink onboard LED and also each PixelStrip.
+    This demonstrates that the program is active and all strips are connected.
+    """
     for _ in range(i):
         led.toggle()
         for s in strip:
@@ -72,6 +67,23 @@ def blink(i):
             s.clear()
             s.show()
         time.sleep(0.2)
+
+def main():
+    global strip, led
+    for s in strip:
+        s.reset()
+    blink(3)
+    last_msg_time = 0.0
+    while True:
+        for s in strip:
+            s.draw()
+        message = receive_message()
+        if message:
+            strip_num = message[0]
+            anim_num = message[1]
+            set_animation(strip_num, anim_num)
+            last_msg_time = current_time()
+        led.value(current_time() < last_msg_time + 0.5)
 
 main()
 
