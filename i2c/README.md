@@ -28,7 +28,7 @@ You can also use Visual Studio Code with the [Pico-Go](http://pico-go.net/) exte
 
 ## Arduino Hardware Setup
 
-Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP16 and GP17 pins for I2C.  Also connect ground wires between the two boards.  Ignore the power pin.
+Connect the Arduino's SDA and SCL pins to corresponding pins on the Pico.  For this example, we are configuring the Pico's GP6 and GP7 pins for I2C.  Also connect ground wires between the two boards.  Ignore the power pin.
 
 When possible, stick to the [Qwiic convention](https://learn.adafruit.com/introducing-adafruit-stemma-qt/technical-specs) of using yellow wire for clock and blue for data.
 

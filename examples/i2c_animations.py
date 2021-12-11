@@ -18,15 +18,15 @@ animation = [
 strip = [
     PixelStrip(4, 12, brightness=BRIGHTNESS),
     PixelStrip(5, 8, brightness=BRIGHTNESS),
-    PixelStrip(6, 12, brightness=BRIGHTNESS),
-    PixelStrip(8, 12, brightness=BRIGHTNESS)
+    PixelStrip(8, 12, brightness=BRIGHTNESS),
+    PixelStrip(9, 12, brightness=BRIGHTNESS)
 ]
 
 # The built-in LED will turn on for half a second after every message
 led = Pin(25, Pin.OUT)
 led.value(False)
 
-i2c_slave = i2cSlave(0,sda=16,scl=17,slave_address=I2C_ADDRESS)
+i2c_slave = i2cSlave(1,sda=6,scl=7,slave_address=I2C_ADDRESS)
 
 def receive_message():
     """
