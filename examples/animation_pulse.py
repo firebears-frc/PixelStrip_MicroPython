@@ -5,7 +5,7 @@ import pixelstrip
 
 class PulseAnimation(pixelstrip.Animation):
     """
-    Pixels are colored alternattely based on a color_list.
+    Pixels are colored alternately based on a color_list.
     Then, the different colors are pulsed bright to dark, each color
     slightly out of sequence.
     """

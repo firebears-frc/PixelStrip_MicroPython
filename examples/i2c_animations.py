@@ -30,7 +30,7 @@ i2c_slave = i2cSlave(1,sda=6,scl=7,slave_address=I2C_ADDRESS)
 
 def receive_message():
     """
-    Recieve one byte on I2C bus.  Translate to strip and animation number.
+    Receive one byte on I2C bus.  Translate to strip and animation number.
     """
     global i2c_slave
     if i2c_slave.any():

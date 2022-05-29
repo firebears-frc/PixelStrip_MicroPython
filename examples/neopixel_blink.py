@@ -6,10 +6,10 @@ strip = NeoPixel(4, 8)
 strip.fill(BLACK)
 
 while True:
-    strip[1] = YELLOW
+    strip[0] = YELLOW
     strip.show()
     sleep(1.0)
-    strip.fill((BLACK)
+    strip.fill(BLACK)
     strip.show()
     sleep(1.0)
     

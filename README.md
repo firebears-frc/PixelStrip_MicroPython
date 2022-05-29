@@ -75,15 +75,15 @@ class BlinkAnimation(Animation):
             self.timeout = 1.0
             lights_on = strip[0][0] != 0
             if lights_on:
-                strip.fill((0, 0, 0, 0))
+                strip.fill((0, 0, 0))
             else:
-                strip[0] = (128, 0, 0, 0)
-                strip[2] = (0, 128, 0, 0)
-                strip[4] = (0, 0, 128, 0)
+                strip[0] = (128, 0, 0)
+                strip[2] = (0, 128, 0)
+                strip[4] = (0, 0, 128)
             strip.show()
 
 # Create a PixelStrip object connected to digital IO pin GP4
-strip = PixelStrip(4, 8, bpp=4, auto_write=True)
+strip = PixelStrip(4, 8, auto_write=True)
 
 # Assign an instance of the new Animation into the strip
 strip.animation = BlinkAnimation()

@@ -24,7 +24,7 @@ class PixelStrip(neopixel.NeoPixel):
     Subclass of NeoPixel, but supporting Animations.
     """
 
-     def __init__(
+    def __init__(
             self, pin, n=8, width=None, height=None, brightness=1.0, options=None, auto_write=False
     ):
         self._options = { MATRIX_PROGRESSIVE, MATRIX_ROW_MAJOR, MATRIX_TOP, MATRIX_LEFT }
@@ -103,7 +103,7 @@ class PixelStrip(neopixel.NeoPixel):
 
         if MATRIX_ZIGZAG in self._options:
             if MATRIX_COLUMN_MAJOR in self._options and xx % 2 == 1:
-                yy = self.Height - (yy + 1)
+                yy = self.height - (yy + 1)
             elif MATRIX_ROW_MAJOR in self._options and yy % 2 == 1:
                 xx = self.width - (xx + 1)
 

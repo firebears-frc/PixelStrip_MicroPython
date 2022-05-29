@@ -48,7 +48,7 @@ class NeoPixel:
         return "[" + ", ".join([str(x) for x in self]) + "]"
 
     def _set_item(self, index, r, g, b): 
-        if index > 0 and index < self._num_pixels:
+        if index >= 0 and index < self._num_pixels:
             self._ar[index] = (g<<16) + (r<<8) + b
 
     def __setitem__(self, index, color):
