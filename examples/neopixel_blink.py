@@ -1,14 +1,15 @@
-import utime
+from utime import sleep
 from npxl import NeoPixel
+from colors import *
 
-strip = NeoPixel(5, 8)
-strip.fill((0, 0, 0, 0))
+strip = NeoPixel(4, 8)
+strip.fill(BLACK)
 
 while True:
-    strip[1] = (0, 128, 0, 0)
+    strip[1] = YELLOW
     strip.show()
-    utime.sleep(1.0)
-    strip.fill((0, 0, 0, 0))
+    sleep(1.0)
+    strip.fill((BLACK)
     strip.show()
-    utime.sleep(1.0)
+    sleep(1.0)
     

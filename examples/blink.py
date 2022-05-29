@@ -1,12 +1,12 @@
 from machine import Pin
-import utime
+from utime import sleep
 
 led = Pin(25, Pin.OUT)
 
 while True:
     led.value(1)
-    utime.sleep(0.5)
+    sleep(0.5)
     led.value(0)
-    utime.sleep(2.0)
+    sleep(2.0)
     
     

@@ -1,7 +1,7 @@
-import utime
+from utime import sleep
 import pixelstrip
 
-# This is a a minimal example of an Animation.
+# This is a minimal example of an Animation.
 # All Animations must define a draw().  It's also a good
 # idea to define an __init__ function for initializing the 
 # Animation and a reset function to reset things every time
@@ -28,6 +28,6 @@ class MyAnimation(pixelstrip.Animation):
 #     strip.animation = MyAnimation()
 #     while True:
 #         strip.draw()
-#         utime.sleep_ms(2)
+#         sleep(0.002)
 #
 # main()

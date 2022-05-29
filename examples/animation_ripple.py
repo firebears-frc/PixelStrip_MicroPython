@@ -1,6 +1,6 @@
-import utime
-import pixelstrip
+from utime import sleep
 from math import sin, floor, ceil
+import pixelstrip
 
 
 class RippleAnimation(pixelstrip.Animation):
@@ -64,6 +64,6 @@ class RippleAnimation(pixelstrip.Animation):
 #     strip.animation = RippleAnimation(x_span=8)
 #     while True:
 #         strip.draw()
-#         utime.sleep(0.02)
+#         sleep(0.02)
 #
 # main()

@@ -1,10 +1,11 @@
-import utime
+from utime import sleep_ms
+from colors import *
 import pixelstrip
 
 strip = pixelstrip.PixelStrip(4, 8)
 strip.timeout = 0.0
 
-color = (0, 128, 128, 0)
+color = (0, 128, 128)
 cycle_time = 2.0
 current_pixel = -1
 
@@ -21,5 +22,5 @@ while True:
             if current_pixel == strip.n:
                 current_pixel = -1
         strip.show()
-    utime.sleep_ms(2)
+    sleep_ms(2)
 

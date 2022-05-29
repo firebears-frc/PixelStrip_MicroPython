@@ -1,6 +1,7 @@
-import utime
-import pixelstrip
+from utime import sleep
 from math import sin, floor
+from colors import *
+import pixelstrip
 
 class PulseAnimation(pixelstrip.Animation):
     """
@@ -8,7 +9,7 @@ class PulseAnimation(pixelstrip.Animation):
     Then, the different colors are pulsed bright to dark, each color
     slightly out of sequence.
     """
-    def __init__(self, color_list=[(136, 0, 0, 0), (64, 64, 0, 0)], cycle_time=2.0, name=None):
+    def __init__(self, color_list=[GREEN, YELLOW], cycle_time=2.0, name=None):
         pixelstrip.Animation.__init__(self, name)
         self.color_list = color_list
         self.cycle_time = cycle_time
@@ -38,14 +39,13 @@ class PulseAnimation(pixelstrip.Animation):
             floor(color[0] * brightness),
             floor(color[1] * brightness),
             floor(color[2] * brightness),
-            floor(color[3] * brightness),
         )
 
 # def main():
-#     strip = pixelstrip.PixelStrip(4, 8, bpp=4, pixel_order=pixelstrip.RGBW)
+#     strip = pixelstrip.PixelStrip(4, 8)
 #     strip.animation = PulseAnimation()
 #     while True:
 #         strip.draw()
-#         utime.sleep(0.02)
+#         sleep(0.02)
 #
 # main()

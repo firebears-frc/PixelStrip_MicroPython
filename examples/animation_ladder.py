@@ -1,11 +1,12 @@
-import utime
+from utime import sleep
+from colors import *
 import pixelstrip
 
 class LadderAnimation(pixelstrip.Animation):
     """
     Every third pixel is colored.  The pixels travel down the strip.
     """
-    def __init__(self, color=(0, 128, 0, 0), cycle_time=0.5):
+    def __init__(self, color=GREEN, cycle_time=0.5):
         pixelstrip.Animation.__init__(self)
         self.color = color
         self.cycle_time = cycle_time
@@ -31,6 +32,6 @@ class LadderAnimation(pixelstrip.Animation):
 #     strip.animation = LadderAnimation()
 #     while True:
 #         strip.draw()
-#         utime.sleep(0.02)
+#         sleep(0.02)
 #
 # main()

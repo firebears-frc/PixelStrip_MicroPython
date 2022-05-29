@@ -1,4 +1,5 @@
-import utime
+from utime import sleep
+from colors import *
 import pixelstrip
 
 class SpinningAnimation(pixelstrip.Animation):
@@ -27,10 +28,12 @@ class SpinningAnimation(pixelstrip.Animation):
 
 
 # def main():
-#     strip = pixelstrip.PixelStrip(4, 8, bpp=4, pixel_order=pixelstrip.RGBW)
-#     strip.animation = SpinningAnimation((128, 64, 0, 0))
+#     strip = pixelstrip.PixelStrip(4, 8)
+#     strip.animation = SpinningAnimation(LIGHTBLUE)
 #     while True:
 #         strip.draw()
-#         utime.sleep(0.02)
-#
+#         sleep(0.02)
+
 # main()
+
+

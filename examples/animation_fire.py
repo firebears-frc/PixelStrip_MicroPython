@@ -1,8 +1,8 @@
-import utime
-import pixelstrip
+from utime import sleep
 from random import randint
 from math import sin, floor
 from machine import Pin
+import pixelstrip
 
 PIN = 4
 NUM_PIXELS = 144
@@ -79,12 +79,12 @@ def blink(n, strip=None):
         if strip:
             strip[0] = (0, 128, 0, 0)
             strip.show()
-        utime.sleep(0.3)
+        sleep(0.3)
         led.toggle()
         if strip:
             strip.clear()
             strip.show()
-        utime.sleep(0.3)
+        sleep(0.3)
 
 # def main():
 #     strip1 = pixelstrip.PixelStrip(PIN, NUM_PIXELS)
@@ -92,7 +92,7 @@ def blink(n, strip=None):
 #     blink(3, strip=strip1)
 #     while True:
 #         strip1.draw()
-#         utime.sleep(0.02)
+#         sleep(0.02)
         
 # main()
 

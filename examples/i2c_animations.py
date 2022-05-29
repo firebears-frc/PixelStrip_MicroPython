@@ -10,8 +10,8 @@ BRIGHTNESS = 0.5
 # List of Animations
 animation = [
     PulseAnimation(),
-    PulseAnimation([(0, 136, 0, 0), (64, 64, 0, 0)]),
-    PulseAnimation([(0, 0, 136, 0), (0, 64, 64, 0)]),
+    PulseAnimation([(0, 136, 0), (64, 64, 0)]),
+    PulseAnimation([(0, 0, 136), (0, 64, 64)]),
 ]
 
 # List of PixelStrips

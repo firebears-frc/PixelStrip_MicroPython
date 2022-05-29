@@ -47,11 +47,12 @@ class NeoPixel:
     def __repr__(self):
         return "[" + ", ".join([str(x) for x in self]) + "]"
 
-    def _set_item(self, index, r, g, b, w): 
-        self._ar[index] = (g<<16) + (r<<8) + b
+    def _set_item(self, index, r, g, b): 
+        if index > 0 and index < self._num_pixels:
+            self._ar[index] = (g<<16) + (r<<8) + b
 
     def __setitem__(self, index, color):
-        self._set_item(index, color[0], color[1], color[2], color[3])
+        self._set_item(index, color[0], color[1], color[2])
         if self.auto_write:
             self.show()
 
@@ -74,7 +75,7 @@ class NeoPixel:
     
     def fill(self, color):
         for index in range(self._num_pixels):
-            self._set_item(index, color[0], color[1], color[2], color[3])
+            self._set_item(index, color[0], color[1], color[2])
         if self.auto_write:
             self.show()
 

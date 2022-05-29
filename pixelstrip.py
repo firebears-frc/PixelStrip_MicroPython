@@ -1,10 +1,6 @@
 import utime
 import npxl as neopixel
 
-RGB = "RGB"
-GRB = "GRB"
-RGBW = "RGBW"
-GRBW = "GRBW"
 
 def current_time():
     """
@@ -13,27 +9,45 @@ def current_time():
     return utime.ticks_ms() / 1000.0
 
 
+MATRIX_TOP = 0x01           # Pixel 0 is at top of matrix
+MATRIX_BOTTOM = 0x02        # Pixel 0 is at bottom of matrix
+MATRIX_LEFT = 0x04          # Pixel 0 is at left of matrix
+MATRIX_RIGHT = 0x08         # Pixel 0 is at right of matrix
+MATRIX_ROW_MAJOR = 0x10     # Matrix is row major (horizontal)
+MATRIX_COLUMN_MAJOR = 0x20  # Matrix is column major (vertical)
+MATRIX_PROGRESSIVE = 0x40   # Same pixel order across each line
+MATRIX_ZIGZAG = 0x80        # Pixel order reverses between lines
+
+
 class PixelStrip(neopixel.NeoPixel):
     """
     Subclass of NeoPixel, but supporting Animations.
     """
 
-    def __init__(
-            self, pin, n, bpp=4, brightness=1.0, auto_write=False, pixel_order=None
+     def __init__(
+            self, pin, n=8, width=None, height=None, brightness=1.0, options=None, auto_write=False
     ):
+        self._options = { MATRIX_PROGRESSIVE, MATRIX_ROW_MAJOR, MATRIX_TOP, MATRIX_LEFT }
+        self.width = n
+        self.height = 1
+        if width is not None and height is not None:
+            n = width * height
+            self.width = width
+            self.height = height
+        if options is not None:
+            self._options = options
         neopixel.NeoPixel.__init__(
             self,
             pin,
             n,
-            bpp=bpp,
             brightness=brightness,
             auto_write=auto_write,
-            pixel_order=pixel_order,
+            pixel_order=None,
         )
         self._timeout = None
         self._animation = None
         self._prev_time = current_time()
-        self.CLEAR = (0, 0, 0, 0) if bpp == 4 else (0, 0, 0)
+        self.wrap = False
 
     def draw(self):
         """
@@ -58,8 +72,45 @@ class PixelStrip(neopixel.NeoPixel):
         """
         Turn all pixels off.
         """
-        self.fill(self.CLEAR)
+        self.fill((0, 0, 0))
         self.show()
+
+    def __setitem__(self, index, color):
+        if type(index) is tuple:
+            nn = self._translate_pixel(index[0], index[1])
+        else:
+            nn = index
+        if self.wrap:
+            while nn < 0:
+                nn += len(self)
+            while nn >= len(self):
+                nn -= len(self)
+        super().__setitem__(nn, color)
+
+    def _translate_pixel(self, x, y):
+        xx = x
+        yy = y
+
+        if MATRIX_TOP in self._options and MATRIX_RIGHT in self._options:
+            xx = y
+            yy = self.height - (x + 1)
+        elif MATRIX_BOTTOM in self._options and MATRIX_RIGHT in self._options:
+            xx = self.width - (x + 1)
+            yy = self.height - (y + 1)
+        elif MATRIX_BOTTOM in self._options and MATRIX_LEFT in self._options:
+            xx = self.width - (y + 1)
+            yy = x
+
+        if MATRIX_ZIGZAG in self._options:
+            if MATRIX_COLUMN_MAJOR in self._options and xx % 2 == 1:
+                yy = self.Height - (yy + 1)
+            elif MATRIX_ROW_MAJOR in self._options and yy % 2 == 1:
+                xx = self.width - (xx + 1)
+
+        if MATRIX_COLUMN_MAJOR in self._options:
+            return xx * self.height + yy
+        else:
+            return xx + yy * self.width
 
     @property
     def animation(self):
@@ -102,6 +153,7 @@ class Animation:
     """
     Base class for all animations.
     """
+
     def __init__(self, name=None):
         self._timeout = None
         self._name = name
