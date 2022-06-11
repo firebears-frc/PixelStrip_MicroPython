@@ -94,6 +94,61 @@ while True:
     utime.sleep(0.010)
 ```
 
+## Matrix Example
 
+```python
+from utime import sleep_ms, sleep
+from colors import *
+import pixelstrip
 
+trip = pixelstrip.PixelStrip(4, width=8, height=8, options={pixelstrip.MATRIX_TOP, pixelstrip.MATRIX_LEFT})
+TIME = 0.200
+
+strip.clear()
+while True:
+    # Blink the zero pixel as RED
+    for i in range(0, 6):
+        strip[0] = RED
+        strip.show()
+        sleep(TIME)
+        strip.clear()
+        strip.show()
+        sleep(TIME/2)
+    sleep(0.500)
+
+    # Blink the origin pixel as GREEN
+    for i in range(0, 6):
+        strip[0,0] = GREEN
+        strip.show()
+        sleep(TIME)
+        strip.clear()
+        strip.show()
+        sleep(TIME/2)
+    sleep(0.500)
+
+    # Blink pixels in sequence as YELLOW
+    for p in range(0, strip.n):
+        strip[p] = YELLOW
+        strip.show()
+        sleep(TIME/2)
+        strip.clear()
+        strip.show()
+        sleep(TIME/4)
+    sleep(0.500)
+
+    # Blink each row as BLUE or WHITE, top to bottom and left to right
+    for y in range(0, strip.height):
+        c = BLUE if y % 2 == 0 else WHITE
+        for x in range(0, strip.width):
+            strip[x,y] = c
+            strip.show()
+            sleep(TIME/2)
+            strip.clear()
+            strip.show()
+            sleep(TIME/4)
+    sleep(0.500)
+
+```
+
+You can use this program to test your matrix hardware, and verify that all the options are correct, e.g. `MATRIX_TOP`, `MATRIX_LEFT`, etc.  If the options are correct, then the green origin pixel will be on the upper left corner and the BLUE/WHITE pixels will move top to bottom and left to right.
 
