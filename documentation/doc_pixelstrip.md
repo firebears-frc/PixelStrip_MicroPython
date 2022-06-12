@@ -123,6 +123,8 @@ strip.auto_write = True   # Boolean value.
 ```
 If `auto_write` is set to `True`, then changes are written automatically, without having to call the [show()](#show)  method.  By default, this property is `False`.
 
+It is recommended that you leave this value as `False`.  It will be more efficient to push all changes out at the same time with `strip.show()`.
+
 
 ### wrap
 

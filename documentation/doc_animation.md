@@ -66,7 +66,8 @@ def draw(self, strip, delta_time):
 
 This is the main routine you must define within your new `Animation` class.  It determines what the animation does.  The `delta_time` variable is the number of seconds since the last `draw()` call.
 
-You must define this method, but you will probably never call it directly.  Instead, call the `PixelStrip` method to `draw()`.
+You must define this method, but you will probably never call it directly.  
+Instead, call the `PixelStrip` method to `draw()`.
 
 
 ### reset(strip)
@@ -77,7 +78,7 @@ def reset(self, strip):
 ```
 
 This method will be called whenever you assign the `Animation` to a strip or whenever you call the `reset()` method on the `PixelStrip`.
-s
+
 Defining the `reset()` method is optional.  If you don't need to reset anything, you need not create it.  
 
 You will probably never call it directly.  Instead, call the similar method on `PixelStrip`.
