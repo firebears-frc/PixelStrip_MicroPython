@@ -37,6 +37,8 @@ The `options` parameter is important for specifying how your pixel matrix is wir
 * `MATRIX_PROGRESSIVE`  Same pixel order across each line
 * `MATRIX_ZIGZAG`       Pixel order reverses between lines
 
+If you are using a linear strip of LEDs rather than a matrix, don't worry about the `option` parameter.
+
 ---
 
 ## Array Operations on PixelStrips
@@ -96,12 +98,14 @@ Setting the `animation` property to an [Animation](doc_animation.md) object caus
 ### timeout
 
 ```python
-strip.timeout = 2.0   # Nmber of seconds
+strip.timeout = 2.0   # Number of seconds
 ```
 Setting the `timeout` property to a number of seconds means that the strip will be timed out that many
 seconds in the future.  Setting `timeout` to `None` clears the timeout.
 
-Note that there is also an [is_timed_out(#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
+Note that there is also an [is_timed_out](#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
+
+Timeouts are a big deal in `PixelStrip` animations.  A timeout is like a timer allowing you to cause something to happen in the future.  For instance, if you want to update your pixels five times a second, then you might set a timeout for 0.2 seconds.  You would code an `if` statement to change pixels colors after the timeout.  The last item in your `if` body would reset the timeout to occur again 0.2 seconds from now.
 
 
 ### brightness

@@ -69,7 +69,7 @@ This is the main routine you must define within your new `Animation` class.  It 
 You must define this method, but you will probably never call it directly.  Instead, call the `PixelStrip` method to `draw()`.
 
 
-### reset(strip, delta_time)
+### reset(strip)
 
 ```python
 def reset(self, strip):
@@ -77,5 +77,7 @@ def reset(self, strip):
 ```
 
 This method will be called whenever you assign the `Animation` to a strip or whenever you call the `reset()` method on the `PixelStrip`.
+s
+Defining the `reset()` method is optional.  If you don't need to reset anything, you need not create it.  
 
-You must define this method, but you will probably never call it directly.
+You will probably never call it directly.  Instead, call the similar method on `PixelStrip`.
