@@ -53,7 +53,7 @@ strip[2] = (255, 255, 0)       # Set the third pixel to be yellow
 strip[2,6] = BLUE              # Set a pixel in the third column and seventh row of a matrix
 ```
 
-Other ways to change pixel colors would be to call the fill() or show() commands.  
+Other ways to change pixel colors would be to call the fill() or clear() commands.  
 
 ---
 
@@ -62,7 +62,8 @@ Other ways to change pixel colors would be to call the fill() or show() commands
 ### n
 
 ```python
-strip.n    # number of pixels on the strip
+strip.n     # number of pixels on the strip
+len(strip)  # another way to get the number of pixels
 ```
 Reading `n` tells the total number of pixels on the strip.  Do not try to modify this property.
 
@@ -86,7 +87,7 @@ The `height` gives the number of pixels on the vertical axis.   If the given `Pi
 ### animation
 
 ```python
-strip.animation    # Animation object or None
+strip.animation = SpinningAnimation(LIGHTBLUE)   # Animation object or None
 ```
 Setting the `animation` property to `None` stops all animaton on the strip and clears all pixels.
 Setting the `animation` property to an [Animation](doc_animation.md) object causes that animation to reset and started.  It is best not to assign the same `Animation` object to multiple strips.
@@ -95,18 +96,18 @@ Setting the `animation` property to an [Animation](doc_animation.md) object caus
 ### timeout
 
 ```python
-strip.timeout    # Nmber of seconds
+strip.timeout = 2.0   # Nmber of seconds
 ```
 Setting the `timeout` property to a number of seconds means that the strip will be timed out that many
 seconds in the future.  Setting `timeout` to `None` clears the timeout.
 
-Note that there is also an is_timed_out that returns `True` or `False` to tell you if the timeout has expired.
+Note that there is also an [is_timed_out(#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
 
 
 ### brightness
 
 ```python
-strip.brightness    # Relative brightness between 0.0 and 1.0
+strip.brightness = 0.7   # Relative brightness between 0.0 and 1.0
 ```
 Setting `brightness` instantly changes the strips brightness.
 
@@ -114,15 +115,15 @@ Setting `brightness` instantly changes the strips brightness.
 ### auto_write
 
 ```python
-strip.auto_write    # Boolean value.
+strip.auto_write = True   # Boolean value.
 ```
-If `auto_write` is set to `True`, then changes are written automatically, without having to call the `show()` method.  By default, this property is `False`.
+If `auto_write` is set to `True`, then changes are written automatically, without having to call the [show()](#show)  method.  By default, this property is `False`.
 
 
 ### wrap
 
 ```python
-strip.wrap    # Boolean value.
+strip.wrap = True   # Boolean value.
 ```
 If `wrap` is set to `True`, then specfiying indices outside the strip's range will be automatically be
 wrapped forward or backward.   By default, this property is `False`.
@@ -149,7 +150,7 @@ Normal operation is to change pixel colors and then call the `show()` method.  A
 strip.fill(GREEN)
 ```
 
-Causes all pixels on the strip to be set to the given color.  You must call `show()` for this to be visible.
+Causes all pixels on the strip to be set to the given color.  You must call [show()](#show) for this to be visible.
 
 
 ### clear()
@@ -158,7 +159,7 @@ Causes all pixels on the strip to be set to the given color.  You must call `sho
 strip.clear()
 ```
 
-Causes all pixels on the strip to be turned off.   You must call `show()` for this to be visible.
+Causes all pixels on the strip to be turned off.   You must call [show()](#show)  for this to be visible.
 
 
 ### draw()
@@ -171,7 +172,7 @@ Cause the strip to draw the next cycle of the current [Animation](doc_animation.
 
 If the strip has no `Animation` specified, nothing will happen.
 
-Changes will not be visible until `show()` is called, or if `auto_write` is turned on.
+Changes will not be visible until [show()](#show)  is called, or if [auto_write](#auto_write) is turned on.
 
 
 ### reset()
@@ -201,6 +202,9 @@ Returns `True` if the strip's timeout has expired.
 
 A number of useful color constants are defined by the `colors.py` file:
 
+
+| | | | | |
+|---------|---------|----------|----------|----------|
 | `ALICEBLUE` | `AMETHYST` | `ANTIQUEWHITE` | `AQUA` | `AQUAMARINE` |
 | `AZURE` | `BEIGE` | `BISQUE` | `BLACK` | `BLANCHEDALMOND` |
 | `BLUE` | `BLUEVIOLET` | `BROWN` | `BURLYWOOD` | `CADETBLUE` |
@@ -231,5 +235,4 @@ A number of useful color constants are defined by the `colors.py` file:
 | `SPRINGGREEN` | `STEELBLUE` | `TAN` | `TEAL` | `THISTLE` |
 | `TOMATO` | `TURQUOISE` | `VIOLET` | `WHEAT` | `WHITE` |
 | `WHITESMOKE` | `YELLOW` | `YELLOWGREEN` |  |
-
 
