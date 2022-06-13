@@ -91,8 +91,10 @@ The `height` gives the number of pixels on the vertical axis.   If the given `Pi
 ```python
 strip.animation = SpinningAnimation(LIGHTBLUE)   # Animation object or None
 ```
-Setting the `animation` property to `None` stops all animaton on the strip and clears all pixels.
+
 Setting the `animation` property to an [Animation](doc_animation.md) object causes that animation to reset and started.  It is best not to assign the same `Animation` object to multiple strips.
+
+Setting the `animation` property to `None` stops all animaton on the strip and clears all pixels.
 
 
 ### timeout
@@ -103,7 +105,7 @@ strip.timeout = 2.0   # Number of seconds
 Setting the `timeout` property to a number of seconds means that the strip will be timed out that many
 seconds in the future.  Setting `timeout` to `None` clears the timeout.
 
-Note that there is also an [is_timed_out](#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
+Note that there is also an [is_timed_out](#is_timed_out) that returns `True` or `False` to tell you if the timeout has expired.
 
 Timeouts are a big deal in `PixelStrip` animations.  A timeout is like a timer allowing you to cause something to happen in the future.  For instance, if you want to update your pixels five times a second, then you might set a timeout for 0.2 seconds.  You would code an `if` statement to change pixels colors after the timeout.  The last item in your `if` body would reset the timeout to occur again 0.2 seconds from now.
 
