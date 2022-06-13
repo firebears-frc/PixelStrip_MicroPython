@@ -82,3 +82,14 @@ This method will be called whenever you assign the `Animation` to a strip or whe
 Defining the `reset()` method is optional.  If you don't need to reset anything, you need not create it.  
 
 You will probably never call it directly.  Instead, call the similar method on `PixelStrip`.
+
+
+### is_timed_out()
+
+```python
+if strip.is_timed_out():
+    pass
+```
+
+Returns `True` if the animation's timeout has expired.
+
