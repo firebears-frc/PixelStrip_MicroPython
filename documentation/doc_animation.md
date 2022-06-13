@@ -47,7 +47,7 @@ self.timeout = 0.5   # Nmber of seconds
 Setting the `timeout` property to a number of seconds means that the `Animation` will be timed out that many
 seconds in the future.  Setting `timeout` to `None` clears the timeout.
 
-Note that there is also an [is_timed_out(#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
+Note that there is also an [is_timed_out](#is_timed_out) that returns `True` or `False` to tell you if the timeout has expired.
 
 Note that this is very similar to the timeout on `PixelStrip`, but it is a _different timeout_.  If you set the timeout on your `PixelStrip`, but then try to use that same timeout on your `Animation`, you will be confused about why it is not working.
 
@@ -66,7 +66,7 @@ def draw(self, strip, delta_time):
 
 This is the main routine you must define within your new `Animation` class.  It determines what the animation does.  The `delta_time` variable is the number of seconds since the last `draw()` call.
 
-You must define this method, but you will probably never call it directly.  
+It is mandatory to define this method in each custom animation class. However, you will probably never call it directly.  
 Instead, call the `PixelStrip` method to `draw()`.
 
 
