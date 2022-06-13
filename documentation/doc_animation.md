@@ -87,7 +87,7 @@ You will probably never call it directly.  Instead, call the similar method on `
 ### is_timed_out()
 
 ```python
-if strip.is_timed_out():
+if self.is_timed_out():
     pass
 ```
 
