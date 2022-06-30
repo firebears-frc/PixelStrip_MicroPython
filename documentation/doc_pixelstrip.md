@@ -43,7 +43,7 @@ If you are using a linear strip of LEDs rather than a matrix, don't worry about 
 
 ## Array Operations on PixelStrips
 
-All `PixelStrip` objects can be treated as if they were [Python arrays](https://www.w3schools.com/python/python_arrays.asp), so you can set colors into strip at any given pixel number.  For instance, writing a color into `strip[0]` will change the color of the first pixel.  You can also read back the color by reading `strip[0]`.
+All `PixelStrip` objects can be treated as if they were [Python arrays](https://www.w3schools.com/python/python_lists.asp), so you can set colors into strip at any given pixel number.  For instance, writing a color into `strip[0]` will change the color of the first pixel.  You can also read back the color by reading `strip[0]`.
 
 Colors on the `PixelStrip` are represented as a three-number [Python tuple](https://www.w3schools.com/python/python_tuples.asp).  The three numbers give the amount of red, green, and blue in the color.  Each number should be in the range from 0 to 255.  Typically we use hexadecimal numbers, although you can also use normal decimal.
 
@@ -103,7 +103,7 @@ strip.timeout = 2.0   # Number of seconds
 Setting the `timeout` property to a number of seconds means that the strip will be timed out that many
 seconds in the future.  Setting `timeout` to `None` clears the timeout.
 
-Note that there is also an [is_timed_out](#is_timed_out)] that returns `True` or `False` to tell you if the timeout has expired.
+Note that there is also a [is_timed_out](#is_timed_out)] function that returns `True` or `False` to tell you if the timeout has expired.
 
 Timeouts are a big deal in `PixelStrip` animations.  A timeout is like a timer allowing you to cause something to happen in the future.  For instance, if you want to update your pixels five times a second, then you might set a timeout for 0.2 seconds.  You would code an `if` statement to change pixels colors after the timeout.  The last item in your `if` body would reset the timeout to occur again 0.2 seconds from now.
 
