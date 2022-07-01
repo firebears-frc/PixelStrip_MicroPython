@@ -4,8 +4,15 @@ from colors import *
 import pixelstrip
 
 PALETTE_SIZE=64
+BRIGHTNESS = 0.20
 
 class ShiftingAnimation(pixelstrip.Animation):
+    """
+    Create a smoothly varying depth across a strip of pixels.
+    The color palette is then smoothly shifted over time, giving
+    the impression of motion.
+    See:  https://en.wikipedia.org/wiki/Color_cycling
+    """
     def __init__(self):
         pixelstrip.Animation.__init__(self)
         self.color_set=[RED, ORANGE, YELLOW, BLACK]
@@ -23,20 +30,28 @@ class ShiftingAnimation(pixelstrip.Animation):
         t = pixelstrip.current_time() % self.cycle_time
         color_shift = floor(PALETTE_SIZE * t / self.cycle_time)
         for p in range(strip.n):
-            d = self._depth[p]
+            d = floor(PALETTE_SIZE * self._depth[p])
             color = self._palette[(d + color_shift) % PALETTE_SIZE]
             strip[p] = color
         strip.show()
     
     def create_depth_map(self, size):
+        """
+        Create an array the same length as a PixelStrip.  Each element 
+        in the array is a floating point number between 0.0 and 1.0.
+        This implementation just creates a sin curve.
+        """
         depth = []
         for p in range(size):
             theta = (2.0 * p / size) * 3.14159
-            d = size * abs(sin(theta))
-            depth.append(int(d))
+            depth.append(abs(sin(theta)))
         return depth
 
     def create_palette(self, color_set):
+        """
+        Create a list of color tuples, where the colors blend
+        smoothly into each other.
+        """
         palette = []
         for i in range(PALETTE_SIZE):
             palette.append(BLACK)
@@ -56,11 +71,29 @@ class ShiftingAnimation(pixelstrip.Animation):
         return (r, g, b)
 
 
+class ShiftingMatrixAnimation(ShiftingAnimation):
+    """
+    Create a smoothly varying depth across a matrix of pixels.
+    """
+    def __init__(self):
+        ShiftingAnimation.__init__(self)
+
+    def create_depth_map(self, size):
+        """
+        Create an array the same length as a PixelStrip.  Each element 
+        in the array is a floating point number between 0.0 and 1.0.
+        This implementation just creates a sin curve.
+        """
+        depth = []
+        for p in range(size):
+            theta = (2.0 * p / size) * 3.14159
+            depth.append(abs(sin(theta)))
+        return depth
+
 # def main():
-#     strip = pixelstrip.PixelStrip(4, 64)
+#     strip = pixelstrip.PixelStrip(4, 64, brightness=BRIGHTNESS)
 #     strip.animation = ShiftingAnimation()
 #     while True:
 #         strip.draw()
-#         sleep(0.002)
 #
 # main()
