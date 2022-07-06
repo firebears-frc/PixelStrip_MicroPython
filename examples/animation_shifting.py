@@ -3,8 +3,9 @@ from math import sin, floor
 from colors import *
 import pixelstrip
 
-PALETTE_SIZE=64
+PALETTE_SIZE = 64
 BRIGHTNESS = 0.20
+
 
 class ShiftingAnimation(pixelstrip.Animation):
     """
@@ -13,9 +14,10 @@ class ShiftingAnimation(pixelstrip.Animation):
     the impression of motion.
     See:  https://en.wikipedia.org/wiki/Color_cycling
     """
+
     def __init__(self):
         pixelstrip.Animation.__init__(self)
-        self.color_set=[BLUE, YELLOW]
+        self.color_set = [BLUE, YELLOW]
         self._palette = []
         self._depth = []
         self.cycle_time = 2.0
@@ -34,7 +36,7 @@ class ShiftingAnimation(pixelstrip.Animation):
             color = self._palette[(d + color_shift) % PALETTE_SIZE]
             strip[p] = color
         strip.show()
-    
+
     def create_depth_map(self, strip):
         """
         Create an array the same length as a PixelStrip.  Each element 
@@ -60,11 +62,11 @@ class ShiftingAnimation(pixelstrip.Animation):
         for i in range(PALETTE_SIZE):
             j = int(i / m)
             color1 = color_set[j]
-            color2 = color_set[(j+1)%len(color_set)]
+            color2 = color_set[(j+1) % len(color_set)]
             n = int(i % m)
             palette[i] = self.average_color(color1, color2, n, m)
         return palette
-    
+
     def average_color(self, color1, color2, n, m):
         r = int(color2[0]*n/m + color1[0]*(m-n)/m)
         g = int(color2[1]*n/m + color1[1]*(m-n)/m)
@@ -72,10 +74,62 @@ class ShiftingAnimation(pixelstrip.Animation):
         return (r, g, b)
 
 
+class Matrix:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.shape = (width, height)
+        self.val = []
+        for _ in range(self.width * self.height):
+            self.val.append(0.0)
+
+    def __setitem__(self, index, value):
+        nn = index[0] + index[1]*self.width if type(index) is tuple else index
+        self.val[nn] = value
+
+    def __getitem__(self, index):
+        nn = index[0] + index[1]*self.width if type(index) is tuple else index
+        return self.val[nn]
+
+    def min(self):
+        mn = self.val[0]
+        for v in self.val:
+            mn = min(mn, v)
+        return mn
+
+    def max(self):
+        mx = self.val[0]
+        for v in self.val:
+            mx = max(mx, v)
+        return mx
+
+    def valid(self, index):
+        return index[0] >= 0 and index[0] < self.width and index[1] >= 0 and index[1] < self.height
+
+    def average(self, *args):
+        count = 0
+        sum = 0.0
+        for index in args:
+            if self.valid(index):
+                count += 1
+                sum += self[index]
+        return sum / count if count > 0 else 0.0
+
+    def depth_map(self):
+        mn = self.min()
+        mx = self.max()
+        d = []
+        for v in self.val:
+            value = (v - mn) / (mx - mn) if mx > mn else 0.0
+            d.append(value)
+        return d
+
+
 class ShiftingMatrixAnimation(ShiftingAnimation):
     """
     Create a smoothly varying depth across a matrix of pixels.
     """
+
     def __init__(self):
         ShiftingAnimation.__init__(self)
 
