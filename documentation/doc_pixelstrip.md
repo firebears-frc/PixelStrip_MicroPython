@@ -91,8 +91,10 @@ The `height` gives the number of pixels on the vertical axis.   If the given `Pi
 ```python
 strip.animation = SpinningAnimation(LIGHTBLUE)   # Animation object or None
 ```
-Setting the `animation` property to `None` stops all animaton on the strip and clears all pixels.
+
 Setting the `animation` property to an [Animation](doc_animation.md) object causes that animation to reset and started.  It is best not to assign the same `Animation` object to multiple strips.
+
+Setting the `animation` property to `None` stops all animaton on the strip and clears all pixels.
 
 
 ### timeout
