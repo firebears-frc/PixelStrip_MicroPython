@@ -101,7 +101,7 @@ from utime import sleep_ms, sleep
 from colors import *
 import pixelstrip
 
-trip = pixelstrip.PixelStrip(4, width=8, height=8, options={pixelstrip.MATRIX_TOP, pixelstrip.MATRIX_LEFT})
+strip = pixelstrip.PixelStrip(4, width=8, height=8, options={pixelstrip.MATRIX_TOP, pixelstrip.MATRIX_LEFT})
 TIME = 0.200
 
 strip.clear()

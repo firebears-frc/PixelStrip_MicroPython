@@ -1,5 +1,6 @@
 from utime import sleep
 from math import sin, floor
+from random import random
 from colors import *
 import pixelstrip
 
@@ -15,12 +16,13 @@ class ShiftingAnimation(pixelstrip.Animation):
     See:  https://en.wikipedia.org/wiki/Color_cycling
     """
 
-    def __init__(self):
+    def __init__(self, stride=8):
         pixelstrip.Animation.__init__(self)
         self.color_set = [BLUE, YELLOW]
         self._palette = []
         self._depth = []
         self.cycle_time = 2.0
+        self.stride = stride
 
     def reset(self, strip):
         strip.clear()
@@ -56,7 +58,7 @@ class ShiftingAnimation(pixelstrip.Animation):
         smoothly into each other.
         """
         palette = []
-        for i in range(PALETTE_SIZE):
+        for _ in range(PALETTE_SIZE):
             palette.append(BLACK)
         m = PALETTE_SIZE / len(color_set)
         for i in range(PALETTE_SIZE):
@@ -115,6 +117,18 @@ class Matrix:
                 sum += self[index]
         return sum / count if count > 0 else 0.0
 
+    def square_average(self, index, n):
+        return self.average((index[0], index[1]),
+                            (index[0]+n, index[1]),
+                            (index[0], index[1]+n),
+                            (index[0]+n, index[1]+n))
+
+    def diamond_average(self, index, n):
+        return self.average((index[0], index[1]),
+                            (index[0]+n, index[1]-n),
+                            (index[0]+n*2, index[1]),
+                            (index[0]+n, index[1]+n))
+
     def depth_map(self):
         mn = self.min()
         mx = self.max()
@@ -130,23 +144,51 @@ class ShiftingMatrixAnimation(ShiftingAnimation):
     Create a smoothly varying depth across a matrix of pixels.
     """
 
-    def __init__(self):
-        ShiftingAnimation.__init__(self)
+    def __init__(self, stride=8):
+        ShiftingAnimation.__init__(self, stride)
+
+    def _rand(self, s=8):
+        return random() * s / self.stride
 
     def create_depth_map(self, strip):
         """
         Create an array the same size and shape as a PixelStrip matrix.  
         Each array element is a floating point number between 0.0 and 1.0.
+        See:  https://en.wikipedia.org/wiki/Diamond-square_algorithm
         """
-        depth = []
-        for y in range(strip.height):
-            th_y = (2.0 * y / strip.height) * 3.14159
-            fy = abs(sin(th_y))
-            for x in range(strip.width):
-                th_x = (5.0 * x / strip.width) * 3.14159
-                fx = abs(sin(th_x))
-                depth.append((fx + fy) / 2.0)
-        return depth
+        m = Matrix(width=strip.width, height=strip.height)
+        s = self.stride
+
+        # Initialize corner values
+        for yy in range(0, m.height, s):
+            for xx in range(0, m.width, s):
+                m[xx, yy] = self._rand(s=s)
+
+        # Initial diamond step
+        for yy in range(0, m.height, s):
+            for xx in range(0, m.width, s):
+                s2 = floor(s/2)
+                m[xx+s2, yy +
+                    s2] = m.diamond_average((xx, yy), s2) + self._rand(s=s2)
+
+        # Loop until everything is filled
+        while s > 1:
+            s2 = floor(s/2)
+            # Perform square step
+            for yy in range(0, m.height, s):
+                for xx in range(0, m.width, s):
+                    m[xx+s2,
+                        yy] = m.square_average((xx, yy), s2) + self._rand(s=s2)
+
+            # Perform diamond step
+            for yy in range(0, m.height, s):
+                for xx in range(0, m.width, s):
+                    m[xx+s2, yy +
+                        s2] = m.diamond_average((xx, yy), s2) + self._rand(s=s2)
+
+            s = floor(s/2)
+
+        return m.depth_map()
 
 
 # def main():
