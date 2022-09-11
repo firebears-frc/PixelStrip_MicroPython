@@ -16,15 +16,15 @@ The Pico board has a tiny LED near the USB plug, which we can cause to blink.  S
 
 ```python
 from machine import Pin
-import utime
+from utime import sleep
 
-led = Pin(25, Pin.OUT)
+led = Pin('LED', Pin.OUT)
 
 while True:
-    led.value(1)
-    utime.sleep(0.5)
-    led.value(0)
-    utime.sleep(2.0)
+    led.on()
+    sleep(0.5)
+    led.off()
+    sleep(2.0)
 ```
 
 This blink program is very useful because it verifies that the basic hardware and software is working.  If you ever reach a point there the board isn't doing anything, you can always load in the blink program to verify that your hardware is wired and powered, that your IDE is working and files are being delivered through USB.
@@ -38,16 +38,16 @@ Wire up your Neopixels (WS2812B LEDs) to power, ground, and digital input. In th
 Copy the `npxl.py` and `pixelstrip.py` files into your project, and then create the following in a file named `main.py`:
 
 ```python
-import utime
+from utime import sleep
 from pixelstrip import PixelStrip
 
 strip = PixelStrip(4, 8, auto_write=True)
 
 while True:
     strip[0] = (128, 0, 0, 0)
-    utime.sleep(0.5)
+    sleep(0.5)
     strip[0] = (0, 0, 0, 0)
-    utime.sleep(0.5)
+    sleep(0.5)
 ```
 
 In code, we create a PixelStrip object and assign colors to specific LEDs. Colors are coded as tuples of four integers, each between 0 and 255.
@@ -59,7 +59,7 @@ Animations on a strip can be changed at any time.
 New animations should extend `pixelstrip.Animation` and must at least define a new `draw()` function.
 
 ```python
-import utime
+from utime import sleep
 from pixelstrip import PixelStrip, Animation
 
 # Define a new Animation
@@ -83,7 +83,7 @@ class BlinkAnimation(Animation):
             strip.show()
 
 # Create a PixelStrip object connected to digital IO pin GP4
-strip = PixelStrip(4, 8, auto_write=True)
+strip = PixelStrip(4, 8)
 
 # Assign an instance of the new Animation into the strip
 strip.animation = BlinkAnimation()
@@ -91,7 +91,7 @@ strip.animation = BlinkAnimation()
 # Repeatedly draw the strip, causing the Animation to run
 while True:
     strip.draw()
-    utime.sleep(0.010)
+    sleep(0.010)
 ```
 
 ## Matrix Example
@@ -101,7 +101,7 @@ from utime import sleep_ms, sleep
 from colors import *
 import pixelstrip
 
-trip = pixelstrip.PixelStrip(4, width=8, height=8, options={pixelstrip.MATRIX_TOP, pixelstrip.MATRIX_LEFT})
+strip = pixelstrip.PixelStrip(4, width=8, height=8, options={pixelstrip.MATRIX_TOP, pixelstrip.MATRIX_LEFT})
 TIME = 0.200
 
 strip.clear()
