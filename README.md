@@ -43,7 +43,7 @@ from pixelstrip import PixelStrip
 
 strip = PixelStrip(4, 8, auto_write=True)
 
-while True:
+while True: 
     strip[0] = (128, 0, 0)
     sleep(0.5)
     strip[0] = (0, 0, 0)
