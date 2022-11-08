@@ -46,3 +46,29 @@ while True:
         matrix.timeout = 0.5
         r = (r + 1) % matrix.width
 ```
+
+Here's another function for drawing:
+
+```python
+from colors import *
+import pixelstrip
+from random import randint
+
+matrix = pixelstrip.PixelStrip(4, width=8, height=8)
+matrix.timeout = 0.0
+
+def draw_box(m, row, col, color):
+    m[row, col] = color
+    m[row+1, col] = color
+    m[row, col+1] = color
+    m[row+1, col+1] = color
+
+while True:
+    if matrix.is_timed_out():
+        matrix.clear()
+        r = randint(0, matrix.width)
+        c = randint(0, matrix.height)
+        draw_box(matrix, r, c, GREEN)
+        matrix.show()
+        matrix.timeout = 1.0
+```
