@@ -15,8 +15,6 @@ matrix[1, 3] = RED   # pixel colors are set by the row and column
 Here's a simple matrix program:
 
 ```python
-from utime import sleep_ms, sleep
-from colors import *
 import pixelstrip
 
 matrix = pixelstrip.PixelStrip(4, width=8, height=8)
@@ -26,7 +24,7 @@ i = 0
 while True:
     if matrix.is_timed_out():
         matrix.clear()
-        matrix[i, i] = BLUE
+        matrix[i, i] = (0, 0, 128)
         matrix.show()
         i = (i + 1) % 8
         matrix.timeout = 0.7
@@ -35,7 +33,6 @@ while True:
 You can break a complex program into smaller functions:
 
 ```python
-from utime import sleep_ms, sleep
 from colors import *
 import pixelstrip
 
