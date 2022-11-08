@@ -29,12 +29,14 @@ Save this program onto your Raspberry Pi Pico with the file name `main.py`, and 
 
 ![led_setup](./img/led_setup_50.png)
 
-Now try setting up this circuit on your breadboard.  The resistor can be any size, and should be connected to GPIO pin 16.  Note that the LED has a long wire and a short wire; the short wire should connect to the blue ground rail and the long wire should be connected near the resistor. Next, try adding more LEDs
+Now try setting up this circuit on your breadboard.  The resistor can be any size, and should be connected to GPIO pin 16.  Note that the LED has a long wire and a short wire; the short wire should connect to the blue ground rail and the long wire should be connected near the resistor. (The long wire is called the Annode, while the short wire is called the Cathode.) Next, try adding more LEDs
 
 ```python
 from machine import Pin
 from utime import sleep
+
 pin_16 = Pin(16, Pin.OUT)
+
 while True:
     pin_16.toggle()
     sleep(1.0)
