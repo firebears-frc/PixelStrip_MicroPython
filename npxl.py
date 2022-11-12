@@ -35,7 +35,7 @@ class NeoPixel:
         self._sm.active(1)
     
     def deinit(self):
-        self.fill((0, 0, 0, 0))
+        self.fill((0, 0, 0))
         self.show()
 
     def __enter__(self):
@@ -58,7 +58,7 @@ class NeoPixel:
 
     def __getitem__(self, index):
         c = self._ar[index]
-        return ((c >> 8) & 0xFF), ((c>>16) & 0xFF), (c & 0xFF), 0
+        return ((c >> 8) & 0xFF), ((c>>16) & 0xFF), (c & 0xFF)
     
     def __len__(self):
         return self._num_pixels
