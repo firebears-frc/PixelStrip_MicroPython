@@ -13,12 +13,14 @@ from utime import sleep
 from pixelstrip import PixelStrip
 from colors import *
 
-strip = PixelStrip(4, 8, auto_write=True)
+strip = PixelStrip(4, 8)
 
 while True:
     strip[0] = (0, 64, 64)
+    strip.show()
     sleep(0.5)
     strip[0] = (0, 0, 0)
+    strip.show()
     sleep(1.5)
 ```
 
