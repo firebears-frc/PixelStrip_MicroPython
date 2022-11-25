@@ -52,7 +52,6 @@ while True:
 Here is a program that uses a 'timeout' on the PixelStrip.
 
 ```python
-from utime import sleep
 from pixelstrip import PixelStrip
 from random import randint
 
