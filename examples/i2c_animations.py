@@ -1,6 +1,6 @@
 import time
 from machine import Pin
-from i2cp import i2cSlave
+from i2cp import I2cPerf
 from pixelstrip import PixelStrip, current_time
 from animation_pulse import PulseAnimation
 
@@ -19,22 +19,22 @@ strip = [
     PixelStrip(4, 12, brightness=BRIGHTNESS),
     PixelStrip(5, 8, brightness=BRIGHTNESS),
     PixelStrip(8, 12, brightness=BRIGHTNESS),
-    PixelStrip(9, 12, brightness=BRIGHTNESS)
+    PixelStrsip(9, 12, brightness=BRIGHTNESS)
 ]
 
 # The built-in LED will turn on for half a second after every message
 led = Pin(25, Pin.OUT)
 led.value(False)
 
-i2c_slave = i2cSlave(1,sda=6,scl=7,slave_address=I2C_ADDRESS)
+i2c = I2cPerf(1,sda=6,scl=7,address=I2C_ADDRESS)
 
 def receive_message():
     """
     Receive one byte on I2C bus.  Translate to strip and animation number.
     """
-    global i2c_slave
-    if i2c_slave.any():
-        b = i2c_slave.get()
+    global i2c
+    if i2c.available():
+        b = i2c.read()
         strip_num = int((b & 0xF0) >> 4)
         anim_num = int(b & 0x0F)
         return (strip_num, anim_num)

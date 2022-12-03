@@ -52,9 +52,9 @@ y = 20
 def draw():
     global x, y
     background(128, 128, 128)
-    rect(x, y, 30, 30);
-    x = (x + 2) % width;
-    y = (y + 1) % height;
+    rect(x, y, 30, 30)
+    x = (x + 2) % width
+    y = (y + 1) % height
 ```
 
 Note that the `x` and `y` variables are no longer inside the `draw` method.  They are `global` variables, which allows them to retain their value after the method has finished.  Change the code to make the square bounce off the walls. 

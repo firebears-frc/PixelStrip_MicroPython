@@ -1,6 +1,14 @@
+# Copyright (c) 2021, Keith Rieck
+# All rights reserved.
+
 from machine import mem32
 
-class i2cSlave:
+class I2cPerf:
+    """
+    Simple I2C peripheral class for the Raspberry Pi Pico (RP2040).
+    An I2cPerf object passively waits for messages from a Controller object.
+    This class only sends and receives a single byte.
+    """
     I2C0_BASE = 0x40044000
     I2C1_BASE = 0x40048000
     IO_BANK0_BASE = 0x40014000
@@ -32,10 +40,10 @@ class i2cSlave:
     def _clr_reg(self, reg, data):
         self._write_reg(reg, data, method=self.mem_clr)
                 
-    def __init__(self, i2c_ID = 0, sda=0,  scl=1, slave_address=0x41):
+    def __init__(self, i2c_ID = 0, sda=0,  scl=1, address=0x41):
         self.scl = scl
         self.sda = sda
-        self.slaveAddress = slave_address
+        self.perfAddress = address
         self.i2c_ID = i2c_ID
         if self.i2c_ID == 0:
             self.i2c_base = self.I2C0_BASE
@@ -48,7 +56,7 @@ class i2cSlave:
         # clr bit 0 to 9
         # set slave address
         self._clr_reg(self.IC_SAR, 0x1ff)
-        self._set_reg(self.IC_SAR, self.slaveAddress &0x1ff)
+        self._set_reg(self.IC_SAR, self.perfAddress &0x1ff)
         # 3 write IC_CON  7 bit, enable in slave-only
         self._clr_reg(self.IC_CON, 0b01001001)
         # set SDA PIN
@@ -60,19 +68,10 @@ class i2cSlave:
         # 4 enable i2c 
         self._set_reg(self.IC_ENABLE, 1)
 
-    def any_read(self):
-        status = mem32[ self.i2c_base | self.IC_RAW_INTR_STAT] & 0x20
-        if status :
-            return True
-        return False
-
-    def put(self, data):
-        # reset flag       
-        self._clr_reg(self.IC_CLR_TX_ABRT,1)
-        status = mem32[ self.i2c_base | self.IC_CLR_RD_REQ]
-        mem32[ self.i2c_base | self.IC_DATA_CMD] = data  & 0xff
-
-    def any(self):
+    def available(self):
+        """
+        Returns True/False on whether there is a message available to be received.
+        """
         # get IC_STATUS
         status = mem32[ self.i2c_base | self.IC_STATUS]
         # check RFNE receive fifio not empty
@@ -80,7 +79,25 @@ class i2cSlave:
             return True
         return False
     
-    def get(self):
-        while not self.any():
+    def read(self):
+        """
+        Returns one byte sent from the Controller.
+        """
+        while not self.available():
             pass
         return mem32[ self.i2c_base | self.IC_DATA_CMD] & 0xff
+
+    def write(self, data):
+        """
+        Sends one byte back to the Controller.
+        """
+        # reset flag       
+        self._clr_reg(self.IC_CLR_TX_ABRT,1)
+        status = mem32[ self.i2c_base | self.IC_CLR_RD_REQ]
+        mem32[ self.i2c_base | self.IC_DATA_CMD] = data  & 0xff
+
+    def any_read(self):
+        status = mem32[ self.i2c_base | self.IC_RAW_INTR_STAT] & 0x20
+        if status :
+            return True
+        return False

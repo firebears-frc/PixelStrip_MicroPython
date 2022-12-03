@@ -56,7 +56,7 @@ class FireAnimation(pixelstrip.Animation):
         strip.show()
         
 def heatColor(temperature):
-    "Translate a temperature number (0-255) into a color representing its heat"
+    """Translate a temperature number (0-255) into a color representing its heat"""
     t192 = scale8_video(temperature, 192)
     heatramp = (t192 & 0x3F) << 2
     if t192 & 0x80:
@@ -70,7 +70,7 @@ def scale8_video(i, sc):
     return floor((i * sc) / 256)
 
 def blink(n, strip=None):
-    "Blink lights to show that the program has loaded successfully"
+    """Blink lights to show that the program has loaded successfully"""
     led = Pin(25, Pin.OUT)
     if strip:
         strip.clear()

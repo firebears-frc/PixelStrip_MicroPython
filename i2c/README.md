@@ -3,7 +3,7 @@
 This project demonstrates that NeoPixel strips connected to a Raspberry Pi Pico can have their animations changed based on I2C communication from an Arduino.  The project has two parts:
 
 * `i2c_animation_tester.ino` is an Arduino program.  It acts as an I2C controller (master device) on the I2C bus.  Every five seconds, it picks a new strip number and animation number. These numbers are coded into a single byte, and the program sends out one byte message on the bus, which should cause animations to change.
-* `i2c_animations.py` is a MicroPython program for the Raspberry Pi Pico.  It acts as an I2C peripheral (slave device) also on the I2C bus.  When it receives a single byte message, it decodes the strip number and animation number from that byte, and then changes the animations on one strip.
+* `i2c_animations.py` is a MicroPython program for the Raspberry Pi Pico.  It acts as an I2C peripheral also on the I2C bus.  When it receives a single byte message, it decodes the strip number and animation number from that byte, and then changes the animations on one strip.
 
 When the Arduino sends out its message, it also causes its onboard LED to light for half a  second.  When the Pico receives a message, it causes the Pico's onboard LED to light for half  a second.  If everything is wired correctly, you should see both LEDs blinking at the same time.
 
