@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
@@ -39,10 +38,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getBumperPressed(Hand.kLeft)) {
+    if (xbox.getLeftBumperPressed()) {
       myAnim = (myAnim + 1) % MAX_ANIMATIONS;
       setAnimation(myStrip, myAnim);
-    } else if (xbox.getBumperPressed(Hand.kRight)) {
+    } else if (xbox.getRightBumperPressed()) {
       clearAllAnimations();
     } else if (xbox.getYButtonPressed()) {
       myStrip = 0;
@@ -63,7 +62,7 @@ public class Robot extends TimedRobot {
     for (int s = 0; s < MAX_STRIPS; s++) {
       Integer b = Integer.valueOf(((s << 4) & 0xF0) | (MAX_ANIMATIONS & 0x0F));
       nextAnimation[s] = b.byteValue();
-      currentAnimation[s] = (byte)0;
+      currentAnimation[s] = (byte) 0;
     }
     myStrip = 0;
     myAnim = 0;
@@ -78,10 +77,10 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * Push out all animation changes to the Pico.  <br/>
+   * Push out all animation changes to the Pico. <br/>
    * This program takes a <em>lazy</em> approach, in that animation signals are
-   * only sent out if they <em>need</em> to change.  Signals are only sent if the
-   * desired animation is different from the current animation. 
+   * only sent out if they <em>need</em> to change. Signals are only sent if the
+   * desired animation is different from the current animation.
    * This prevents redundant, unnecessary changes from dominating the I2C bus.
    */
   private void sendAllAnimations() {
